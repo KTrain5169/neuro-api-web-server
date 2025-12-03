@@ -1,0 +1,45 @@
+{
+  "name": "napi-web-server",
+  "version": "0.0.0",
+  "description": "A web server for the Neuro API.",
+  "keywords": [],
+  "license": "MIT",
+  "author": {
+    "name": "KTrain5369",
+    "email": "me@ktrain5369.dev",
+    "url": "https://ktrain5369.dev"
+  },
+  "main": "dist/api/index.cjs",
+  "module": "dist/api/index.mjs",
+  "types": "dist/api/index.d.ts",
+  "bin": {
+    "napi-ws": "dist/cli/index.js"
+  },
+  "scripts": {
+    "dev": "concurrently \"tsx watch cli/index.ts -w\" \"tsc\"",
+    "build": "rollup -c",
+    "compile": "bun build ./dist/cli/index.js --compile --outfile bin/napi-ws",
+    "start": "node dist/cli/index.js",
+    "prepack": "bun run build",
+    "release": "changeset publish"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "chokidar": "^5.0.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.10.1",
+    "concurrently": "^9.2.1",
+    "prettier": "^3.6.2",
+    "rollup": "^4.53.3",
+    "tslib": "^2.8.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

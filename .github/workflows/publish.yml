@@ -1,0 +1,98 @@
+name: Publish
+
+on:
+    push:
+        branches:
+            - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        outputs:
+            published: ${{ steps.changesets.outputs.published }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+            - run: bun install
+            - run: bun run build
+            
+            - name: Create Release Pull Request or Publish to npm
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  publish: bun run release
+                  commit: 'chore: release'
+                  title: 'chore: release'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
+    compile-binaries:
+        name: Compile Binaries
+        needs: release
+        if: needs.release.outputs.published == 'true'
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      artifact-name: napi-ws-linux-x64
+                      binary-name: napi-ws
+                    - os: windows-latest
+                      artifact-name: napi-ws-windows-x64
+                      binary-name: napi-ws.exe
+                    - os: macos-latest
+                      artifact-name: napi-ws-macos-x64
+                      binary-name: napi-ws
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+            - run: bun install
+            - run: bun run build
+            
+            - name: Compile binary
+              run: bun run compile
+            
+            - name: Upload binary artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ matrix.artifact-name }}
+                  path: bin/${{ matrix.binary-name }}
+                  if-no-files-found: error
+    
+    create-release:
+        name: Create GitHub Release
+        needs: [release, compile-binaries]
+        if: needs.release.outputs.published == 'true'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v6
+
+            - name: Get version and tag
+              id: version
+              run: |
+                  VERSION=$(npm show ./ version)
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+            
+            - name: Download all binary artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: binaries/
+            
+            - name: Display structure of downloaded files
+              run: ls -R binaries/
+            
+            - name: Upload to GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: ${{ steps.version.outputs.tag }}
+                  files: binaries/**/*
+                  fail_on_unmatched_files: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
