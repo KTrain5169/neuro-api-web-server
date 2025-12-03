@@ -1,7 +1,7 @@
 {
   "name": "napi-web-server",
   "version": "0.0.0",
-  "description": "A web server for the Neuro API.",
+  "description": "A web server for Neuro API WebGL(or otherwise web-based games.",
   "keywords": [],
   "license": "MIT",
   "author": {
@@ -15,6 +15,9 @@
   "bin": {
     "napi-ws": "dist/cli/index.js"
   },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "dev": "concurrently \"tsx watch cli/index.ts -w\" \"tsc\"",
     "build": "rollup -c",
