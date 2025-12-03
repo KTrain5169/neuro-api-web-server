@@ -41,7 +41,7 @@ export default [
             replace({
                 preventAssignment: true,
                 values: {
-                    '__VERSION__': pkg.version
+                    'in-dev': pkg.version
                 }
             }),
             typescript({

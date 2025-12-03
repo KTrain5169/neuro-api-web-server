@@ -4,7 +4,7 @@ import { startServer, type ServerOptions } from '../server/index.js'
 import { resolve } from 'path'
 
 // @rollup-plugin-replace
-const VERSION = '__VERSION__'
+const VERSION = 'in-dev'
 
 interface CliArgs {
     port?: number
