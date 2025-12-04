@@ -23,8 +23,7 @@
     "build": "rollup -c",
     "compile": "bun build ./dist/cli/index.js --compile --outfile bin/napi-ws",
     "start": "node dist/cli/index.js",
-    "prepack": "bun run build",
-    "release": "changeset publish"
+    "prepack": "bun run build"
   },
   "dependencies": {
     "express": "^5.2.1",

@@ -30,7 +30,7 @@ jobs:
               id: changesets
               uses: changesets/action@v1
               with:
-                  publish: npm run release
+                  publish: npm publish
                   commit: 'chore: release'
                   title: 'chore: release'
               env:
