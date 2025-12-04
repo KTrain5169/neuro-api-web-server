@@ -1,5 +1,11 @@
 # napi-web-server
 
+## 1.0.2
+
+### Patch Changes
+
+- 69fa4ad: These are CI changes but they need a new publish so oops...
+
 ## 1.0.1
 
 ### Patch Changes
