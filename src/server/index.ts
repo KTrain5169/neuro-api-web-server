@@ -157,7 +157,7 @@ export function createServer(options: ServerOptions = {}): Express {
 export function startServer(options: ServerOptions = {}): Promise<void> {
     return new Promise((resolve, reject) => {
         const app = createServer(options)
-        const port = options.port || 8080
+        const port = options.port || 4000
 
         const server = app.listen(port, () => {
             console.log(`Web server running on http://localhost:${port}`)

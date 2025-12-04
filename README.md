@@ -18,7 +18,7 @@ Neuro API Web Server CLI
 Usage: napi-ws [options] [game-directory]
 
 Options:
-  -p, --port <port>                               Server port (default: 8080)
+  -p, --port <port>                               Server port (default: 4000)
   -u, --ws-url, --websocket-url <url>             WebSocket URL for Neuro SDK
   -q, --query-param, --use-query-param            Allow WebSocketURL query parameter
   -w, --watch, --watch-mode, --hot-reload         Enable watch mode for development
