@@ -79,6 +79,8 @@ jobs:
         name: Create GitHub Release
         needs: [release, compile-binaries]
         if: needs.release.outputs.published == 'false'
+        permissions:
+          contents: write
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
