@@ -4,6 +4,10 @@
   "description": "A web server for Neuro API WebGL(or otherwise web-based games.",
   "keywords": [],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KTrain5169/neuro-api-web-server"
+  },
   "author": {
     "name": "KTrain5369",
     "email": "me@ktrain5369.dev",
